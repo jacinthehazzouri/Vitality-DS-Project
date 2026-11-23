@@ -1,0 +1,6 @@
+{
+  "test_script": "scripts/test_blockchain_recovery.py",
+  "observed_result": "Ran 10 tests; OK",
+  "scope": "Actual coordinator and peer functions with test doubles for HTTP and temporary chain files.",
+  "complementary_test": "http-recovery.json uses real HTTP and isolated peer server processes."
+}

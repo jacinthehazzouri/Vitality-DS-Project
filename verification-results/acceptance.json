@@ -1,0 +1,488 @@
+{
+  "runId": "2026-11-23T19-16-03-655Z",
+  "started": "2026-11-23T19:16:03.656Z",
+  "tests": [
+    {
+      "name": "Admin login",
+      "passed": true,
+      "observed": {
+        "role": "ADMIN"
+      }
+    },
+    {
+      "name": "Duplicate member email",
+      "passed": true,
+      "observed": {
+        "expected": 409,
+        "status": 409,
+        "error": "Email already registered"
+      }
+    },
+    {
+      "name": "Anonymous admin access",
+      "passed": true,
+      "observed": {
+        "expected": 401,
+        "status": 401,
+        "error": "Authentication required"
+      }
+    },
+    {
+      "name": "Member denied admin member list",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Administrator access required"
+      }
+    },
+    {
+      "name": "Member denied admin schedule",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Administrator access required"
+      }
+    },
+    {
+      "name": "Member denied membership grant",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Administrator access required"
+      }
+    },
+    {
+      "name": "Member denied class creation",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Administrator access required"
+      }
+    },
+    {
+      "name": "Member denied other membership",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Forbidden"
+      }
+    },
+    {
+      "name": "Booking rejected without membership",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "An active membership is required to book classes"
+      }
+    },
+    {
+      "name": "Invalid session dates",
+      "passed": true,
+      "observed": {
+        "expected": 400,
+        "status": 400,
+        "error": "classId, valid startsAt, endsAt and positive capacity are required"
+      }
+    },
+    {
+      "name": "Invalid booking ID",
+      "passed": true,
+      "observed": {
+        "expected": 400,
+        "status": 400,
+        "error": "Invalid booking ID"
+      }
+    },
+    {
+      "name": "Invalid registration shape",
+      "passed": true,
+      "observed": {
+        "expected": 400,
+        "status": 400,
+        "error": "Enter a valid name, email and password (8 characters minimum, 72 bytes maximum)"
+      }
+    },
+    {
+      "name": "Invalid membership ID",
+      "passed": true,
+      "observed": {
+        "expected": 400,
+        "status": 400,
+        "error": "Invalid member ID"
+      }
+    },
+    {
+      "name": "Grant member A membership",
+      "passed": true,
+      "observed": {}
+    },
+    {
+      "name": "Grant member B membership",
+      "passed": true,
+      "observed": {}
+    },
+    {
+      "name": "Concurrent last-seat race",
+      "passed": true,
+      "observed": {
+        "statuses": [
+          409,
+          201
+        ],
+        "confirmedCount": 1,
+        "sessionId": "7f6d4927-fac4-4a72-86f8-890ba80e368e"
+      }
+    },
+    {
+      "name": "Winning booking has outbox event",
+      "passed": true,
+      "observed": {
+        "eventId": "63241be6-0566-4042-b057-13f71fb31178"
+      }
+    },
+    {
+      "name": "Duplicate booking rejected",
+      "passed": true,
+      "observed": {
+        "expected": 409,
+        "status": 409,
+        "error": "You already booked this session"
+      }
+    },
+    {
+      "name": "Member cannot cancel another booking",
+      "passed": true,
+      "observed": {
+        "expected": 404,
+        "status": 404,
+        "error": "Active booking not found"
+      }
+    },
+    {
+      "name": "Admin cancels member booking",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Member can rebook freed seat",
+      "passed": true,
+      "observed": {
+        "expected": 201,
+        "status": 201
+      }
+    },
+    {
+      "name": "Member cancels own booking",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Revoke membership",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Revoked membership blocks booking",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Your membership is not active"
+      }
+    },
+    {
+      "name": "Renew membership",
+      "passed": true,
+      "observed": {}
+    },
+    {
+      "name": "Deactivate member",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Inactive member cannot log in",
+      "passed": true,
+      "observed": {
+        "expected": 401,
+        "status": 401,
+        "error": "Invalid email or password"
+      }
+    },
+    {
+      "name": "Existing token cannot book when inactive",
+      "passed": true,
+      "observed": {
+        "expected": 403,
+        "status": 403,
+        "error": "Your membership is not active"
+      }
+    },
+    {
+      "name": "Reactivate member",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Reactivated member can log in",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Edit class",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Archive blocked while session upcoming",
+      "passed": true,
+      "observed": {
+        "expected": 409,
+        "status": 409,
+        "error": "Record not found, already changed, or has upcoming sessions"
+      }
+    },
+    {
+      "name": "Admin books on behalf of member",
+      "passed": true,
+      "observed": {
+        "expected": 201,
+        "status": 201
+      }
+    },
+    {
+      "name": "Cancel whole session",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Session cancellation cancels reservations",
+      "passed": true,
+      "observed": {
+        "confirmedCount": 0
+      }
+    },
+    {
+      "name": "Cancelled session rejects booking",
+      "passed": true,
+      "observed": {
+        "expected": 409,
+        "status": 409,
+        "error": "This session is cancelled"
+      }
+    },
+    {
+      "name": "Archive class after session cancelled",
+      "passed": true,
+      "observed": {
+        "expected": 200,
+        "status": 200
+      }
+    },
+    {
+      "name": "Archived class hidden publicly",
+      "passed": true,
+      "observed": {}
+    },
+    {
+      "name": "Acceptance events verified on blockchain",
+      "passed": true,
+      "observed": {
+        "verified": 18,
+        "height": 160
+      }
+    },
+    {
+      "name": "Live duplicate delivery acknowledged without extra block",
+      "passed": true,
+      "observed": {
+        "duplicateSeen": true,
+        "beforeHeight": 160,
+        "afterHeight": 160,
+        "eventId": "63241be6-0566-4042-b057-13f71fb31178"
+      }
+    },
+    {
+      "name": "Final peer agreement",
+      "passed": true,
+      "observed": {
+        "peers": [
+          {
+            "peer": "peer-1",
+            "height": 160,
+            "valid": true,
+            "hash": "ee302a4dc11e5ebc89335c705ea710a5475dbac8239a578a3b709c9aa8fc5180"
+          },
+          {
+            "peer": "peer-2",
+            "height": 160,
+            "valid": true,
+            "hash": "ee302a4dc11e5ebc89335c705ea710a5475dbac8239a578a3b709c9aa8fc5180"
+          },
+          {
+            "peer": "peer-3",
+            "height": 160,
+            "valid": true,
+            "hash": "ee302a4dc11e5ebc89335c705ea710a5475dbac8239a578a3b709c9aa8fc5180"
+          }
+        ]
+      }
+    }
+  ],
+  "measurements": [],
+  "auditEvents": [
+    {
+      "event_id": "1b88ae4a-97f0-4dc3-b0d7-6c5837aee616",
+      "block": 142,
+      "type": "MEMBER_CREATED",
+      "confirmation_upper_bound_ms": 2846
+    },
+    {
+      "event_id": "566e7fd7-dc25-445d-a21f-a1e696c830e0",
+      "block": 143,
+      "type": "MEMBER_CREATED",
+      "confirmation_upper_bound_ms": 2062
+    },
+    {
+      "event_id": "2dec970a-d166-46dd-a634-11b10077fa9b",
+      "block": 148,
+      "type": "CLASS_CREATED",
+      "confirmation_upper_bound_ms": 1088
+    },
+    {
+      "event_id": "4a282648-f439-4ffd-9196-172cf0c042be",
+      "block": 144,
+      "type": "MEMBERSHIP_GRANTED",
+      "confirmation_upper_bound_ms": 951
+    },
+    {
+      "event_id": "c33dfba1-81c4-433f-bc36-cffb3935e54e",
+      "block": 145,
+      "type": "MEMBERSHIP_GRANTED",
+      "confirmation_upper_bound_ms": 925
+    },
+    {
+      "event_id": "ed861cd2-2112-4b1a-9571-a78f616f043e",
+      "block": 146,
+      "type": "MEMBERSHIP_REVOKED",
+      "confirmation_upper_bound_ms": 754
+    },
+    {
+      "event_id": "a47b01c1-39ce-43a6-97bf-8fb0c0921157",
+      "block": 147,
+      "type": "MEMBERSHIP_GRANTED",
+      "confirmation_upper_bound_ms": 707
+    },
+    {
+      "event_id": "d9413011-82ad-482c-bdb3-4ef83f9468f0",
+      "block": 149,
+      "type": "SESSION_SCHEDULED",
+      "confirmation_upper_bound_ms": 2102
+    },
+    {
+      "event_id": "63241be6-0566-4042-b057-13f71fb31178",
+      "block": 150,
+      "type": "BOOKING_CREATED",
+      "confirmation_upper_bound_ms": 1967
+    },
+    {
+      "event_id": "88304b54-4873-4c17-8b59-8f8447a7eced",
+      "block": 151,
+      "type": "BOOKING_CANCELLED_BY_ADMIN",
+      "confirmation_upper_bound_ms": 1878
+    },
+    {
+      "event_id": "b4f365a0-8162-4ca5-856c-8a2dac8837f2",
+      "block": 152,
+      "type": "BOOKING_CREATED",
+      "confirmation_upper_bound_ms": 1863
+    },
+    {
+      "event_id": "60ed56e3-835a-49f9-b490-3aa668c0a141",
+      "block": 153,
+      "type": "BOOKING_CANCELLED",
+      "confirmation_upper_bound_ms": 1834
+    },
+    {
+      "event_id": "5acb9437-79a3-4ee5-af61-5ca0039e60a2",
+      "block": 156,
+      "type": "MEMBER_DEACTIVATED",
+      "confirmation_upper_bound_ms": 1745
+    },
+    {
+      "event_id": "f915bf62-cad6-4b21-8708-f7943cfbeb30",
+      "block": 154,
+      "type": "CLASS_UPDATED",
+      "confirmation_upper_bound_ms": 1295
+    },
+    {
+      "event_id": "5ca6cc5b-7c08-4034-8e70-234d075752b2",
+      "block": 155,
+      "type": "BOOKING_CREATED_BY_ADMIN",
+      "confirmation_upper_bound_ms": 1260
+    },
+    {
+      "event_id": "e58e706b-7e33-4535-9d53-c84f0e9d6de5",
+      "block": 157,
+      "type": "MEMBER_REACTIVATED",
+      "confirmation_upper_bound_ms": 2725
+    },
+    {
+      "event_id": "fc7e11e4-a8cf-4972-96f9-f97c74ebf867",
+      "block": 158,
+      "type": "SESSION_CANCELLED",
+      "confirmation_upper_bound_ms": 2272
+    },
+    {
+      "event_id": "1bcbd081-1acb-4069-bbfb-5799c427b095",
+      "block": 160,
+      "type": "CLASS_ARCHIVED",
+      "confirmation_upper_bound_ms": 2221
+    }
+  ],
+  "testRecords": {
+    "memberIds": [
+      "f4d8425b-f925-45b8-a679-85928180da60",
+      "06faccdd-691a-4928-b40b-ef2794b6d7ad"
+    ],
+    "classId": "f8867f0a-e031-4bfd-83d9-88e798b709e5",
+    "sessionId": "7f6d4927-fac4-4a72-86f8-890ba80e368e"
+  },
+  "limitations": [],
+  "finished": "2026-11-23T19:16:09.300Z",
+  "summary": {
+    "passed": 41,
+    "failed": 0,
+    "unconfirmedEvents": []
+  }
+}

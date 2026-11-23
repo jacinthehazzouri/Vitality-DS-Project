@@ -1,0 +1,72 @@
+{
+  "checks": [
+    {
+      "name": "Unavailable Member Service returns 503 without a new booking",
+      "passed": true,
+      "status": 503,
+      "error": "Membership validation is temporarily unavailable",
+      "before": 86,
+      "after": 86
+    },
+    {
+      "name": "Malformed JSON rejected",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "Invalid member ID rejected by deployed service",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "Broker queue drained after verification and cleanup",
+      "passed": true
+    },
+    {
+      "name": "All live peer histories agree",
+      "passed": true
+    }
+  ],
+  "cleanup": {
+    "deactivatedVerificationAccounts": 24,
+    "cancelledVerificationSessions": 0,
+    "archivedVerificationClasses": 0,
+    "physicalRowsDeleted": 0
+  },
+  "pendingOutboxRows": {
+    "booking": 0,
+    "members": 0
+  },
+  "peers": [
+    {
+      "url": "http://blockchain-peer-1:8000",
+      "peer": "peer-1",
+      "status": "ok",
+      "height": 281,
+      "latest_hash": "c7fd8fa9dcd9098412dde50dae21b796357371db88207b02d42f235d1e07d701",
+      "valid": true
+    },
+    {
+      "url": "http://blockchain-peer-2:8000",
+      "peer": "peer-2",
+      "status": "ok",
+      "height": 281,
+      "latest_hash": "c7fd8fa9dcd9098412dde50dae21b796357371db88207b02d42f235d1e07d701",
+      "valid": true
+    },
+    {
+      "url": "http://blockchain-peer-3:8000",
+      "peer": "peer-3",
+      "status": "ok",
+      "height": 281,
+      "latest_hash": "c7fd8fa9dcd9098412dde50dae21b796357371db88207b02d42f235d1e07d701",
+      "valid": true
+    }
+  ],
+  "queue": {
+    "ready": 0,
+    "unacked": 0,
+    "total": 0,
+    "consumers": 1
+  }
+}

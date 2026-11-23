@@ -1,0 +1,82 @@
+{
+  "source_run": "2026-11-23T18-48-21-885Z",
+  "api_load_measurements": [
+    {
+      "kind": "api_load",
+      "concurrency": 5,
+      "successes": 5,
+      "requests": 5,
+      "batch_ms": 344.1777000000002,
+      "successful_requests_per_second": 14.52737931597543,
+      "mean_ms": 244.94507999999988,
+      "p95_ms": 343.1785999999993,
+      "audit_confirmation": {
+        "mean_ms": 1495.2,
+        "p95_ms": 1496
+      }
+    },
+    {
+      "kind": "api_load",
+      "concurrency": 10,
+      "successes": 10,
+      "requests": 10,
+      "batch_ms": 200.61089999999967,
+      "successful_requests_per_second": 49.84774007793204,
+      "mean_ms": 136.16166000000013,
+      "p95_ms": 198.51370000000315,
+      "audit_confirmation": {
+        "mean_ms": 3425,
+        "p95_ms": 4703
+      }
+    },
+    {
+      "kind": "api_load",
+      "concurrency": 20,
+      "successes": 20,
+      "requests": 20,
+      "batch_ms": 851.1196000000054,
+      "successful_requests_per_second": 23.49846014590649,
+      "mean_ms": 634.9688699999984,
+      "p95_ms": 826.9461999999985,
+      "audit_confirmation": {
+        "mean_ms": 2711.65,
+        "p95_ms": 4387
+      }
+    }
+  ],
+  "load_checks": [
+    {
+      "name": "Load 5 accepted without overbooking",
+      "passed": true,
+      "observed": {
+        "successes": 5,
+        "confirmedCount": 5,
+        "sessionId": "b7a69259-9042-4d8f-8dad-c429916845eb"
+      }
+    },
+    {
+      "name": "Load 10 accepted without overbooking",
+      "passed": true,
+      "observed": {
+        "successes": 10,
+        "confirmedCount": 10,
+        "sessionId": "0efa0f77-bd58-46c9-ace5-32caf2b67335"
+      }
+    },
+    {
+      "name": "Load 20 accepted without overbooking",
+      "passed": true,
+      "observed": {
+        "successes": 20,
+        "confirmedCount": 20,
+        "sessionId": "64baff53-6bfc-4cf0-82da-db11bf7930a5"
+      }
+    }
+  ],
+  "limitations": [
+    "Single batches of 5, 10 and 20 concurrent bookings on one laptop.",
+    "Observed confirmation times are upper bounds from polling.",
+    "This evaluates local capacity, not multi-host horizontal scaling.",
+    "Use audit-benchmark.json for the corrected comparison using two logged PostgreSQL tables."
+  ]
+}

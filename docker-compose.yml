@@ -1,0 +1,126 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: vitality-rabbitmq
+    env_file: ./backend/.env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [vitality]
+
+  member-service:
+    build: ./backend/member-service
+    env_file: ./backend/.env
+    environment:
+      MEMBER_SERVICE_PORT: 4001
+    ports: ["4001:4001"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    restart: unless-stopped
+    networks: [vitality]
+
+  booking-service:
+    build: ./backend/booking-service
+    env_file: ./backend/.env
+    environment:
+      MEMBER_SERVICE_URL: http://member-service:4001
+      BOOKING_SERVICE_PORT: 4002
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+      member-service: { condition: service_started }
+    ports: ["4002:4002"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    restart: unless-stopped
+    networks: [vitality]
+
+  outbox-worker:
+    build: ./backend/booking-service
+    command: ["npm", "run", "worker"]
+    env_file: ./backend/.env
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    restart: unless-stopped
+    networks: [vitality]
+
+  member-outbox-worker:
+    build: ./backend/booking-service
+    command: ["npm", "run", "worker"]
+    env_file: ./backend/.env
+    environment:
+      OUTBOX_SOURCE: member
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    restart: unless-stopped
+    networks: [vitality]
+
+  api-gateway:
+    build: ./backend/api-gateway
+    env_file: ./backend/.env
+    environment:
+      MEMBER_SERVICE_URL: http://member-service:4001
+      BOOKING_SERVICE_URL: http://booking-service:4002
+      BLOCKCHAIN_SERVICE_URL: http://blockchain-service:8100
+      GATEWAY_PORT: 4000
+    depends_on: [member-service, booking-service]
+    ports: ["4000:4000"]
+    restart: unless-stopped
+    networks: [vitality]
+
+  blockchain-peer-1:
+    build: ./backend/blockchain-nodes/peer-1
+    env_file: ./backend/.env
+    environment: { PEER_ID: peer-1, DATA_FILE: /data/chain.json }
+    volumes: [peer1_data:/data]
+    ports: ["8101:8000"]
+    networks: [vitality]
+    restart: unless-stopped
+
+  blockchain-peer-2:
+    build: ./backend/blockchain-nodes/peer-2
+    env_file: ./backend/.env
+    environment: { PEER_ID: peer-2, DATA_FILE: /data/chain.json }
+    volumes: [peer2_data:/data]
+    ports: ["8102:8000"]
+    networks: [vitality]
+    restart: unless-stopped
+
+  blockchain-peer-3:
+    build: ./backend/blockchain-nodes/peer-3
+    env_file: ./backend/.env
+    environment: { PEER_ID: peer-3, DATA_FILE: /data/chain.json }
+    volumes: [peer3_data:/data]
+    ports: ["8103:8000"]
+    networks: [vitality]
+    restart: unless-stopped
+
+  blockchain-service:
+    build: ./backend/blockchain-service
+    env_file: ./backend/.env
+    environment:
+      PEER_URLS: http://blockchain-peer-1:8000,http://blockchain-peer-2:8000,http://blockchain-peer-3:8000
+      BLOCKCHAIN_PORT: 8100
+      PENDING_FILE: /data/pending.json
+    volumes: [coordinator_data:/data]
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+      blockchain-peer-1: { condition: service_started }
+      blockchain-peer-2: { condition: service_started }
+      blockchain-peer-3: { condition: service_started }
+    ports: ["8100:8100"]
+    restart: unless-stopped
+    networks: [vitality]
+
+networks:
+  vitality:
+    driver: bridge
+volumes:
+  peer1_data:
+  peer2_data:
+  peer3_data:
+  coordinator_data:

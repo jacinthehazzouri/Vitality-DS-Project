@@ -1,0 +1,5 @@
+{
+  "name": "@vitality/booking-service", "version": "1.0.0", "private": true, "type": "module",
+  "scripts": {"dev": "node --watch src/server.js", "start": "node src/server.js", "worker": "node src/workers/outbox-worker.js"},
+  "dependencies": {"amqplib": "^0.10.5", "express": "^4.21.2", "jsonwebtoken": "^9.0.2", "pg": "^8.13.1"}
+}

@@ -1,0 +1,35 @@
+{
+  "height": 284,
+  "valid": true,
+  "allDemoEventsRecorded": true,
+  "pendingOutboxRows": [
+    0,
+    0
+  ],
+  "queue": {
+    "ready": 0,
+    "unacked": 0,
+    "total": 0,
+    "consumers": 1
+  },
+  "peers": [
+    {
+      "peer": "peer-1",
+      "height": 284,
+      "hash": "cb0a573c17a83949df2de81584cfc1a0b21ec427a4f1e9f1adac336bebbeb8dd",
+      "valid": true
+    },
+    {
+      "peer": "peer-2",
+      "height": 284,
+      "hash": "cb0a573c17a83949df2de81584cfc1a0b21ec427a4f1e9f1adac336bebbeb8dd",
+      "valid": true
+    },
+    {
+      "peer": "peer-3",
+      "height": 284,
+      "hash": "cb0a573c17a83949df2de81584cfc1a0b21ec427a4f1e9f1adac336bebbeb8dd",
+      "valid": true
+    }
+  ]
+}

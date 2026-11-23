@@ -1,0 +1,1 @@
+The FastAPI coordinator consumes vitality.audit.events from RabbitMQ, orders events, proposes blocks to three independent peers, requires at least two approvals and commits to the approving peers. Peer chains are persisted in separate Docker volumes.

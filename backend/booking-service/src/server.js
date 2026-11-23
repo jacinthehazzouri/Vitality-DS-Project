@@ -1,0 +1,14 @@
+import express from 'express';
+import adminRoutes from './routes/admin.js';
+import classes from './routes/classes.js';
+import sessions from './routes/sessions.js';
+import bookings from './routes/bookings.js';
+import { pool } from './db.js';
+const app = express(); app.use(express.json());
+app.get('/health', async (_req,res) => { try { await pool.query('SELECT 1'); res.json({service:'booking-service',status:'ok'}); } catch { res.status(503).json({service:'booking-service',status:'database_unavailable'}); } });
+app.use('/admin', adminRoutes);
+app.use('/classes', classes); app.use('/sessions', sessions); app.use('/bookings', bookings);
+app.use((err,_req,res,_next)=>{ console.error(err); if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON body' });
+  if (err.type === 'entity.too.large') return res.status(413).json({ error: 'Request body too large' });
+  res.status(500).json({ error: 'Internal server error' }); });
+app.listen(Number(process.env.BOOKING_SERVICE_PORT || 4002),()=>console.log('Booking Service listening'));

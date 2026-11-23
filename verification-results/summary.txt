@@ -1,0 +1,86 @@
+VITALITY IMPLEMENTATION AND VERIFICATION SUMMARY
+Verified November 23 2026
+
+RESULTS
+41 live API acceptance checks passed with zero failures after deployment.
+10 isolated blockchain logic regressions passed.
+4 isolated real-HTTP recovery checks passed.
+5 additional dependency, input-validation and final-state checks passed.
+35 load-test bookings across batches of 5, 10 and 20 all succeeded without overbooking.
+Frontend TypeScript check and normal npm production build passed.
+
+RECOVERY EVIDENCE
+The real-HTTP test terminated the third isolated peer and injected a failed commit on peer 2.
+Peer 1 saved the proposed block while peer 2 remained behind.
+A fresh coordinator instance recovered the identical block hash from the persistent journal.
+Two peers completed the commit while the third stayed offline.
+The restored third peer caught up; a replay produced no extra block.
+These failure injections used isolated peer processes and temporary chains, not the live ledger.
+
+CURRENT LIVE STATE
+All three peers valid at height 284 with the same hash.
+Both database outboxes have zero unpublished rows.
+RabbitMQ Ready 0, Unacked 0, Total 0; one coordinator consumer.
+
+MEASUREMENTS
+Concurrent requests 5: mean response 244.9 ms; p95 343.2 ms; batch throughput 14.5 successful requests/s; mean observed audit confirmation 1.50 s.
+Concurrent requests 10: mean response 136.2 ms; p95 198.5 ms; batch throughput 49.8 successful requests/s; mean observed audit confirmation 3.42 s.
+Concurrent requests 20: mean response 635.0 ms; p95 826.9 ms; batch throughput 23.5 successful requests/s; mean observed audit confirmation 2.71 s.
+Controlled SQL transaction database_audit: mean 51.0 ms; p95 131.0 ms; ten alternating trials.
+Controlled SQL transaction blockchain_outbox: mean 42.7 ms; p95 67.8 ms; ten alternating trials.
+Controlled benchmark mean observed blockchain completion 16.10 s.
+The transaction benchmark excludes HTTP and membership checks equally in both modes.
+Both comparison audit tables are logged PostgreSQL tables. The test-only baseline table was removed after measurement.
+Small samples, cache state and background processing affect timing. The outbox transaction time excludes blockchain completion.
+These figures do not establish that blockchain is faster than database-only auditing.
+
+CHANGES AND WHY
+Registration validates names, emails, field types and password size before calling database or hashing functions.
+Membership routes reject invalid UUIDs with HTTP 400 instead of database errors.
+Business-service error handlers return HTTP 400 for malformed JSON and 413 for oversized bodies.
+The member account page displays actual active, expired, scheduled or revoked membership state.
+Peer commit and sync writes are serialized to protect the read-validate-write critical section.
+Added repeatable live verification, controlled benchmark and real-HTTP recovery scripts.
+Corrected setup and architecture documentation to match the implemented admin panel and blockchain.
+
+SOURCE FILES ADDED OR UPDATED
+backend/member-service/src/routes/auth.js
+backend/member-service/src/routes/members.js
+backend/member-service/src/server.js
+backend/booking-service/src/server.js
+frontend/src/pages/Account.tsx
+backend/blockchain-nodes/peer-1/main.py
+backend/blockchain-nodes/peer-2/main.py
+backend/blockchain-nodes/peer-3/main.py
+scripts/test_blockchain_recovery.py
+scripts/test_blockchain_http_recovery.py
+scripts/verify-project.mjs
+scripts/benchmark-audit.mjs
+README.md
+backend/README.md
+docs/architecture.md
+verification-results/* contains sanitized evidence from this run.
+
+TEST DATA AND DEMO PREPARATION
+Created verification-only accounts, classes, sessions and audit events.
+Deactivated the 24 verification accounts and cancelled seven verification sessions.
+Archived two verification class definitions. Existing user accounts and their history were preserved.
+No operational history was physically deleted. Verification events remain in the ledger.
+Prepared Presentation Demo sessions for November 24 at 17:00 Beirut time (two seats) and 18:00 (one seat).
+These demo sessions are currently unbooked.
+
+LIMITATIONS AND OUTSTANDING DELIVERABLES
+Single coordinator and trusted peers; no Raft leader election or Byzantine fault tolerance.
+All containers share one laptop; PostgreSQL databases share one instance.
+Full-chain retrieval and scans limit large-ledger throughput.
+Loss of journal storage or conflicting/corrupt histories can require manual recovery.
+RabbitMQ stop/start recovery was demonstrated; deletion or recreation of broker storage was not tested.
+Malformed or conflicting events currently retry; there is no dead-letter processing workflow.
+The source archive contains code and evidence, not database dumps, passwords or saved chain volumes.
+Browser automation could not attach to this chat browser session. Earlier user demonstrations supply UI evidence; API tests and frontend build were verified.
+Report, PowerPoint and presentation rehearsal remain for the requested later phase.
+
+HOW TO REPRODUCE
+Use README.md for startup. The code reuses an existing PostgreSQL container.
+Use the tests and prerequisites documented in docs/architecture.md.
+Source changes are in the Downloads project. Member, booking and peer image rebuilds were confirmed during this session.

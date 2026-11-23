@@ -1,0 +1,15 @@
+import express from 'express';
+import authRoutes from './routes/auth.js';
+import adminRoutes from './routes/admin.js';
+import memberRoutes from './routes/members.js';
+import { pool } from './db.js';
+const app = express();
+app.use(express.json());
+app.get('/health', async (_req, res) => { try { await pool.query('SELECT 1'); res.json({ service: 'member-service', status: 'ok' }); } catch { res.status(503).json({ service: 'member-service', status: 'database_unavailable' }); } });
+app.use('/auth', authRoutes);
+app.use('/members', memberRoutes);
+app.use('/admin', adminRoutes);
+app.use((err, _req, res, _next) => { console.error(err); if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON body' });
+  if (err.type === 'entity.too.large') return res.status(413).json({ error: 'Request body too large' });
+  res.status(500).json({ error: 'Internal server error' }); });
+app.listen(Number(process.env.MEMBER_SERVICE_PORT || 4001), () => console.log('Member Service listening'));

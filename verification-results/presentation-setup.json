@@ -1,0 +1,18 @@
+{
+  "classId": "46ed753a-f88a-4319-a23e-751da3da1ec5",
+  "name": "Presentation Demo",
+  "sessions": [
+    {
+      "sessionId": "b1443ff8-b88a-4d49-a5ac-722c1535fe3b",
+      "startsAt": "2026-11-24T15:00:00.000Z",
+      "capacity": 2,
+      "eventId": "307d75c3-8ca0-4d8c-97e1-c3b3d0e7588e"
+    },
+    {
+      "sessionId": "dfcd7be0-b4f2-4e7e-a6e8-3cd7c648ec6c",
+      "startsAt": "2026-11-24T16:00:00.000Z",
+      "capacity": 1,
+      "eventId": "140c311e-e20a-4e08-8769-8523b1d3cdfa"
+    }
+  ]
+}

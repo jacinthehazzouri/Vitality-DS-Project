@@ -1,0 +1,117 @@
+{
+  "runId": "2026-11-23T19:20:34.186Z",
+  "trials": 10,
+  "modes": {
+    "database_audit": {
+      "mean_ms": 51.02026999999998,
+      "p95_ms": 130.95280000000002,
+      "samples_ms": [
+        130.95280000000002,
+        32.963299999999435,
+        22.39050000000043,
+        32.18379999999979,
+        38.46799999999985,
+        84.78920000000016,
+        69.36509999999998,
+        51.39150000000063,
+        21.96309999999994,
+        25.735399999999572
+      ]
+    },
+    "blockchain_outbox": {
+      "mean_ms": 42.66048999999985,
+      "p95_ms": 67.76029999999992,
+      "samples_ms": [
+        67.76029999999992,
+        42.65569999999934,
+        42.36399999999958,
+        50.66849999999977,
+        43.36700000000019,
+        53.684400000000096,
+        34.88389999999981,
+        31.003199999999197,
+        35.23900000000049,
+        24.978900000000067
+      ]
+    }
+  },
+  "events": [
+    {
+      "event_id": "3b4e028b-072a-4e5e-8067-314a94614406",
+      "started_ms": 1795461638007,
+      "block": 164,
+      "confirmation_upper_bound_ms": 8586
+    },
+    {
+      "event_id": "e8041ed0-a3e6-459e-a140-dc70290b3f99",
+      "started_ms": 1795461638075,
+      "block": 165,
+      "confirmation_upper_bound_ms": 10412
+    },
+    {
+      "event_id": "58091201-9e0e-4253-97b4-0dcfed3b5fb7",
+      "started_ms": 1795461638173,
+      "block": 166,
+      "confirmation_upper_bound_ms": 12314
+    },
+    {
+      "event_id": "604693bf-7f18-4446-a2d1-35350655157f",
+      "started_ms": 1795461638215,
+      "block": 167,
+      "confirmation_upper_bound_ms": 13890
+    },
+    {
+      "event_id": "88f7e194-3db1-4513-9243-1fb60f606b8e",
+      "started_ms": 1795461638337,
+      "block": 168,
+      "confirmation_upper_bound_ms": 15596
+    },
+    {
+      "event_id": "0ec2830a-4c60-44de-89b2-6f703fda0427",
+      "started_ms": 1795461638380,
+      "block": 169,
+      "confirmation_upper_bound_ms": 17188
+    },
+    {
+      "event_id": "610e8d81-5e7a-4a3b-b7db-3940bb95afb2",
+      "started_ms": 1795461638588,
+      "block": 170,
+      "confirmation_upper_bound_ms": 18974
+    },
+    {
+      "event_id": "f785ba86-ac0e-4cf3-b015-6b3813f7b869",
+      "started_ms": 1795461638623,
+      "block": 171,
+      "confirmation_upper_bound_ms": 20409
+    },
+    {
+      "event_id": "f2f9cd50-ad25-4436-aefc-a19d778feb27",
+      "started_ms": 1795461638728,
+      "block": 172,
+      "confirmation_upper_bound_ms": 21819
+    },
+    {
+      "event_id": "72ae3f89-aa9b-42d7-a260-896a4103ed9b",
+      "started_ms": 1795461638763,
+      "block": 173,
+      "confirmation_upper_bound_ms": 21784
+    }
+  ],
+  "limitations": [
+    "Both modes run identical booking SQL. Both write to logged, persistent PostgreSQL tables.",
+    "HTTP and membership validation are excluded in both modes. Members are verification accounts selected before timing.",
+    "Database-only audit is complete at COMMIT. Outbox COMMIT does not include blockchain confirmation.",
+    "Single laptop, ten alternating trials per mode, cold/warm cache and background work affect the measurements.",
+    "Blockchain confirmation times are upper bounds observed by polling after the batch."
+  ],
+  "classId": "1df713ef-8799-4ed4-a1c6-bcbb319d9df4",
+  "sessions": {
+    "database_audit": "04903b9d-6b75-4f4d-98d8-8c62aa8a835d",
+    "blockchain_outbox": "8de667f9-23f6-4bfa-ae8c-9930b05299f1"
+  },
+  "blockchain_confirmation": {
+    "mean_ms": 16097.2,
+    "p95_ms": 21819
+  },
+  "passed": true
+}
